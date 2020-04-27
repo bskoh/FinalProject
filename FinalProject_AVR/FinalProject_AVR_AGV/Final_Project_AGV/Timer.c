@@ -10,13 +10,11 @@
 #include <avr/interrupt.h>
 
 volatile int tmr_motor	= 0;
-volatile int tmr_rfid	= 0;
-volatile int tmr_sleep	= 0;
+volatile int tmr		= 0;
 
 ISR(TIMER0_OVF_vect) {
 	tmr_motor++;
-	tmr_rfid++;
-	tmr_sleep++;
+	tmr++;
 }
 
 void INIT_TIMER0(void) {

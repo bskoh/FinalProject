@@ -7,7 +7,7 @@
 
 #ifndef UART0_H_
 #define UART0_H_
-void UART0_Init();
+void init_uart0();
 void UART0_transmit(char data);
 unsigned char UART0_receive(void);
 void UART0_printf_string(char *str);

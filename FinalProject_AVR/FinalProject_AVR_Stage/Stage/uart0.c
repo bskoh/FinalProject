@@ -13,7 +13,7 @@ volatile uint8_t rxString[64]={0};   // Add DHT11 rxString[]-->2차원 배열 �
 volatile uint8_t rxReadyFlag=0;   // Add DHT11
 
 
-void UART0_Init()
+void init_uart0()
 {
    /* Set baud rate */
    UBRR0H = 0;     // UBRR1H   --> UBRR0H

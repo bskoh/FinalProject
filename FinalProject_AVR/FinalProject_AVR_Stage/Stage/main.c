@@ -1,4 +1,4 @@
-#define F_CPU 16000000L
+#define F_CPU 16000000UL
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -13,10 +13,14 @@
 #define OFF						0
 #define	VALUE_SIZE				11
 
+#define INITIAL					0
+#define NORMAL					1
+#define DEFECT					2
+
 //Sensor, Motor Pin 설정
-#define Sensor_Port				PINE
+#define Sensor_Port				PINF
 #define Sensor_Drop_AGV			0x01
-#define Sensor_Drop_stage		1
+#define Sensor_Drop_stage		0x02
 #define Sensor_Buffer_stage		0x04
 #define Sensor_Pick_stage		0x08
 #define Sensor_Pick_AGV			0x10
@@ -26,75 +30,61 @@
 #define Motor_Conv_Drop2		0x02
 #define Motor_Conv_Pick1		0x04
 #define Motor_Conv_Pick2		0x08
-#define Motor_Stopper			OCR1A
+#define Motor_Stopper			OCR1C
 
 //Stopper 위치 설정
 #define Pos_Stopper_Open		3000
-#define Pos_Stopper_Close		1000
+#define Pos_Stopper_Throw		3800
+#define Pos_Stopper_Close		5000
 
 //Motor delay 설정
-#define Delay_Stopper			128
+#define Delay_Stopper			64
 #define Delay_Conv				64
 
-int value[VALUE_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
-int comp_value[VALUE_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+int value[VALUE_SIZE]			= { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+int comp_value[VALUE_SIZE]		= { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+
+int Flag_AutoMode				= 0;				// 컨베이어 AutoMode ( 0: 수동 / 1: 자동 )
+int Flag_ProdDefect				= 0;				// 제품 불량 판단 ( 1: 제품 정상 / 2: 제품 불량 )
+
+int Motor_conv_drop_stat		= 0;				// Drop 컨베이어 작동 상태 ( 0: OFF / 1: ON )
+int Motor_conv_pick_stat		= 0;				// Pick 컨베이어 작동 상태 ( 0: OFF / 1: ON )
+
+int Drop_ready					= 0;
+int Pick_ready					= 0;
+int Motor_Stopper_open			= 0;
+
+int Seqeunce					= 0;
+int delay						= 0;
+
+char *ptr_receiveData;								// receiveData를 ","로 분할하여 저장하는 포인터
+char *cnt;											// receiveData를 분할한 값의 첫 번째 부분 ( 카운트 : 001, 002, ... )
+char *cmd;											// receiveData를 분할한 값의 두 번째 부분 ( 명령어 : pick, drop, stat )
+int ptr_cnt						= 0;				// 위의 receiveData를 저장 하기 위한 count 변수
+
+int cnt_event					= 0;
+int tmr							= 0;
+char buffer[50]					= { };
 	
-int Flag_AutoMode = 0;
-
-
-// CdS 밝을 때의 최소값
-int CdS_high_drop_stage			= 1024;
-int CdS_high_pick_stage			= 1024;
-int CdS_high_buffer_stage		= 1024;
-int CdS_high_drop_agv			= 1024;
-int CdS_high_pick_agv			= 1024;
-
-// CdS 어두울 때의 최대값
-int CdS_low_drop_stage			= 0;
-int CdS_low_pick_stage			= 0;
-int CdS_low_buffer_stage		= 0;
-int CdS_low_drop_agv			= 0;
-int CdS_low_pick_agv			= 0;
-
-int Motor_conv_drop_stat		= 0;
-int Motor_conv_pick_stat		= 0;
-
-int Drop_ready			= 0;
-int Pick_ready			= 0;
-int Motor_Stopper_open	= 0;
-
-int Seqeunce			= 0;
-int delay				= 0;
-
-char *ptr_receiveData;		// receiveData를 ","로 분할하여 저장하는 포인터
-char *cnt;					// receiveData를 분할한 값의 첫 번째 부분 ( 카운트 : 001, 002, ... )
-char *cmd;					// receiveData를 분할한 값의 두 번째 부분 ( 명령어 : pick, drop, stat )
-int ptr_cnt = 0;			// 위의 receiveData를 저장 하기 위한 count 변수
-
-int cnt_event = 0;
-char buffer[50] = { };
-
 FILE OUTPUT = FDEV_SETUP_STREAM(UART0_transmit, NULL, _FDEV_SETUP_WRITE);
 FILE INPUT = FDEV_SETUP_STREAM(NULL, UART0_receive, _FDEV_SETUP_READ);
 
-void init_timer0(void)
+void init_timer(void)
 {
 	TCCR0 |= (1 << CS02) | (1 << CS01) | (1 << CS00);
 	TIMSK |= (1 << TOIE0);
 }
 
-void init_timer1(void)
+void init_pwm(void)
 {
 	TCCR1A |= (1 << WGM11);
 	TCCR1B |= (1 << WGM12) | (1 << WGM13);
 	
-	TCCR1A |= (1 << COM1A1) | (1 << COM1B1) | (1 << COM1C1);
+	TCCR1A |= (1 << COM1C1);
 	TCCR1B |= (1 << CS11);
 	ICR1 = 39999;
 	
-	OCR1A = 1000;
-	OCR1B = 39999;
-	OCR1C = 39999;
+	OCR1C = Pos_Stopper_Close;
 }
 
 ISR(USART0_RX_vect)
@@ -105,16 +95,17 @@ ISR(USART0_RX_vect)
 ISR(TIMER0_OVF_vect)
 {
 	delay++;
+	tmr++;
 }
 
 void Update_Value(void) 
 {
 	value[0]	 = Seqeunce;
-	value[1]	 = (PINE&0x01) == 0;
-	value[2]	 = (PINE&0x02) == 0;
-	value[3]	 = (PINE&0x04) == 0;
-	value[4]	 = (PINE&0x08) == 0;
-	value[5]	 = (PINE&0x10) == 0;
+	value[1]	 = (Sensor_Port&Sensor_Drop_AGV) == 0;
+	value[2]	 = (Sensor_Port&Sensor_Drop_stage) == 0;
+	value[3]	 = (Sensor_Port&Sensor_Buffer_stage) == 0;
+	value[4]	 = (Sensor_Port&Sensor_Pick_stage) == 0;
+	value[5]	 = (Sensor_Port&Sensor_Pick_AGV) == 0;
 	// TODO : 모터 출력 1,0으로 나오게 하는 연산이 이 연산식이 맞는지 확인 Value 6, 7
 	value[6]	 = ((Motor_Port & Motor_Conv_Drop1) | (Motor_Port & Motor_Conv_Drop2))
 					== Motor_Conv_Drop1;
@@ -127,9 +118,13 @@ void Update_Value(void)
 }
 void Send_Value(void)
 {	
-	for (int i = 1 ; i < 11 ; i++)
+	for (int i = 0 ; i < 11 ; i++)
 	{
-		if(i < 10) {
+		if(i == 0) {
+			sprintf(buffer, "%03d,", value[i]);
+			UART0_printf_string(buffer);
+		}
+		else if(i >= 1 && i < 10) {
 			sprintf(buffer, "%d,", value[i]);
 			UART0_printf_string(buffer);
 		}
@@ -138,12 +133,12 @@ void Send_Value(void)
 			UART0_printf_string(buffer);
 		}
 	}
-	UART0_printf_string("\n\r");
+	UART0_printf_string("\r");
 }
 
 void Send_Event_Value(void)
 {
-	sprintf(buffer, "e%2d,", cnt_event);
+	sprintf(buffer, "e%02d,", cnt_event);
 	UART0_printf_string(buffer);
 	Send_Value();
 	cnt_event++;
@@ -158,11 +153,12 @@ int Diff_Value(int ary1[], int ary2[])
 {	
 	int count = 0;
 	
-	for(int i = 6; i < 11; i++) 
+	for(int i = 8; i < 11; i++) 
 	{
 		if(ary1[i] != ary2[i])
 		{
 			count++;
+			break;
 		}
 	}
 	
@@ -181,7 +177,7 @@ int Check_Pickable(void)
 	if ((Sensor_Port & Sensor_Pick_stage) == Sensor_Pick_stage	// pick stage에 물건 x
 		|| (Sensor_Port & Sensor_Pick_AGV) == 0					// pick stage에 agv o
 		|| (Motor_Port & Motor_Conv_Pick1) == Motor_Conv_Pick1	// motor가 돌고있으면
-		|| Motor_Stopper_open == 1)								// stopper가 열려있으면						// agv의 위치가 pick stage가 아니면
+		|| Motor_Stopper_open == 1)								// stopper가 열려있으면
 	{
 		return 0;
 	}
@@ -205,26 +201,6 @@ int Check_Dropable(void)
 	}
 }
 
-//void CdS_Calibration(void) 
-//{
-	//int temp;
-	//
-	//UART0_printf_string("Calibration Start\r\n");
-	//CdS_high_drop_stage = 1024;
-	//for(int i = 0; i < 2048; i++) {
-		//temp = readAdc(1);
-		//if(temp < CdS_high_drop_stage) {
-			//CdS_high_drop_stage = temp;
-		//}
-	//}
-	//
-	//CdS_low_drop_stage = CdS_high_drop_stage - 50;
-	//
-	//UART0_printf_string("Calibration End\r\n");
-	//sprintf(buffer, "%d\r\n", CdS_high_drop_stage);
-	//UART0_printf_string(buffer);
-//}
-
 int main(void)
 {		
 	DDRB |= (1 << PORTB0) | (1 << PORTB1) | (1 << PORTB2) | (1 << PORTB3);
@@ -232,9 +208,9 @@ int main(void)
 	
 	uint8_t *receiveData;
 	
-	UART0_Init();
-	init_timer0();
-	init_timer1();
+	init_uart0();
+	init_timer();
+	init_pwm();
 	
 	sei();
 	
@@ -266,18 +242,35 @@ int main(void)
 				UART0_printf_string(",");
 				Send_Value();
 			}
-			else if(strncmp(cmd,"manu",4) == 0)
+			if(strncmp(cmd,"manu",4) == 0)
 			{
 				Flag_AutoMode = 0;
 				UART0_printf_string(cnt);
 				UART0_printf_string(",");
 				Send_Value();
 			}
-			else if(strncmp(cmd, "stat", 4) == 0)
+			if(strncmp(cmd, "stat", 4) == 0)
 			{
 				UART0_printf_string(cnt);
 				UART0_printf_string(",");
 				Send_Value();
+			}
+			if(strncmp(cmd, "rset", 4) == 0)		// AVR Reset
+			{
+				PORTA = 0x00;
+				PORTB = 0x00;
+				PORTC = 0x00;
+				PORTD = 0x00;
+				PORTE = 0x00;
+				asm("jmp 0");
+			}
+			if(strncmp(cmd, "pdok", 4) == 0)
+			{
+				Flag_ProdDefect = NORMAL;
+			}
+			if(strncmp(cmd, "pdno", 4) == 0)
+			{
+				Flag_ProdDefect = DEFECT;
 			}
 		}
 		/////////////////////////////////////////////////////////////////////////////
@@ -300,11 +293,25 @@ int main(void)
 		
 		/////////////////////////////////////////////////////////////////////////////
 		// Pick, Drop ready 상태 초기화
-		if (Check_Pickable() == 0)
+		if ((Sensor_Port & Sensor_Pick_AGV) == Sensor_Pick_AGV &&							// Pick stage에 AGV가 없고
+			(Sensor_Port & Sensor_Pick_stage) == 0 &&										// Pick stage에 물건이 있고
+			(((Motor_Port & Motor_Conv_Pick1) | (Motor_Port & Motor_Conv_Pick2)) == 0))		// Pick Conv가 돌지 않으면
+		{
+			Pick_ready = 1;
+		}
+		else
 		{
 			Pick_ready = 0;
 		}
-		if (Check_Dropable() == 0)
+		if ((Sensor_Port & Sensor_Drop_AGV) == Sensor_Drop_AGV &&							// Drop stage에 AGV가 없고
+			(Sensor_Port & Sensor_Drop_stage) == Sensor_Drop_stage &&						// Drop stage에 물건이 없고
+			(Sensor_Port & Sensor_Buffer_stage) == Sensor_Buffer_stage &&					// Buffer stage에 물건이 없고
+			(((Motor_Port & Motor_Conv_Drop1) | (Motor_Port & Motor_Conv_Drop2)) == 0) &&	// Drop Conv가 돌지 않고
+			(Motor_Stopper_open == 0))														// Stopper가 닫혀 있으면
+		{
+			Drop_ready = 1;
+		}
+		else
 		{
 			Drop_ready = 0;
 		}
@@ -321,33 +328,49 @@ int main(void)
 			break;
 			
 			case 1:		//Drop stage에 제품이 있고, AGV가 없을 때
-				if(Check_Dropable() == 1)
+				if((Sensor_Port & Sensor_Drop_AGV) == Sensor_Drop_AGV && (Sensor_Port & Sensor_Drop_stage) == 0)
 				{
 					Seqeunce++;
 				} 
 			break;
 			
 			case 2:		// buffer sensor 들어올때까지 Drop Conv 구동
-				if((Sensor_Port & Sensor_Buffer_stage) == 0x00)
+				if((Sensor_Port & Sensor_Buffer_stage) == Sensor_Buffer_stage)
 				{
 					Motor_Port |= Motor_Conv_Drop1;
 				}
-				else if((Sensor_Port & Sensor_Buffer_stage) == Sensor_Buffer_stage)
+				else if((Sensor_Port & Sensor_Buffer_stage) == 0)
 				{
 					Motor_Port &= ~Motor_Conv_Drop1;
 					Seqeunce++;
 				}
 			break;
 			
-			case 3:		//Pick stage로 보내기 전에 확인(제품, AGV X)
-				if((Sensor_Port & Sensor_Pick_stage) == 0x00 && (Sensor_Port & Sensor_Pick_AGV) == 0x00)
+			case 3:		// 제품 불량 판단
+				if(Flag_ProdDefect != INITIAL)
 				{
-					Seqeunce = 10;
-					delay = 0;
+					if(Flag_ProdDefect == NORMAL)
+					{
+						Seqeunce++;
+					}
+					else if(Flag_ProdDefect == DEFECT)
+					{
+						delay = 0;
+						Seqeunce = 10;
+					}
 				}
 			break;
 			
-			case 10:	//Stopper open
+			case 4:		//Pick stage로 보내기 전에 확인(제품, AGV X)
+				if((Sensor_Port & Sensor_Pick_stage) == Sensor_Pick_stage && (Sensor_Port & Sensor_Pick_AGV) == Sensor_Pick_AGV)
+				{
+					delay = 0;
+					Seqeunce++;
+				}
+			break;
+			
+			
+			case 5:		//Stopper open
 				Motor_Stopper = Pos_Stopper_Open;
 				Motor_Stopper_open = 1;
 				if(delay >= Delay_Stopper)
@@ -356,15 +379,15 @@ int main(void)
 				}
 			break;
 			
-			case 11:		//Buffer stage에서 Pick stage로 제품 보내기
-				if((Sensor_Port & Sensor_Buffer_stage) == Sensor_Buffer_stage)
+			case 6:		//Buffer stage에서 Pick stage로 제품 보내기
+				if((Sensor_Port & Sensor_Buffer_stage) == 0)
 				{
 					//buffer에 제품 있으므로 Drop, Pick Conv 계속 구동
 					Motor_Port |= Motor_Conv_Drop1;
 					Motor_Port |= Motor_Conv_Pick1;
 					delay = 0;
 				}
-				else if((Sensor_Port & Sensor_Buffer_stage) == 0x00)
+				else if((Sensor_Port & Sensor_Buffer_stage) == Sensor_Buffer_stage)
 				{
 					//buffer에 제품 없어짐, Drop Conv 정지, Stopper close
 					if (delay >= Delay_Conv)
@@ -380,12 +403,12 @@ int main(void)
 				}
 			break;
 			
-			case 12:		//Pick stage 감지 후 Pick Conv 정지
-				if((Sensor_Port & Sensor_Pick_stage) == 0x00)
+			case 7:		// Pick stage 감지 후 Pick Conv 정지
+				if((Sensor_Port & Sensor_Pick_stage) == Sensor_Pick_stage)
 				{
 					//pick stage에 제품 도착 안했으므로 Pick Conv 계속 구동
 				}
-				else if((Sensor_Port & Sensor_Pick_stage) == Sensor_Pick_stage)
+				else if((Sensor_Port & Sensor_Pick_stage) == 0)
 				{
 					//pick stage 제품 도착 완료, Pick Conv 정지
 					Motor_Port &= ~Motor_Conv_Pick1;
@@ -393,7 +416,40 @@ int main(void)
 				}
 			break;
 			
+			case 10:	// 제품이 불량일 경우
+				Motor_Stopper = Pos_Stopper_Throw;
+				Motor_Stopper_open = 1;
+				if(delay >= Delay_Stopper)
+				{
+					Seqeunce++;
+				}
+			break;
+			
+			case 11:	// 제품 버리기
+				if((Sensor_Port & Sensor_Buffer_stage) == 0)
+				{
+					//buffer에 제품 있으므로 Drop, Pick Conv 계속 구동
+					Motor_Port |= Motor_Conv_Drop1;
+					delay = 0;
+				}
+				else if((Sensor_Port & Sensor_Buffer_stage) == Sensor_Buffer_stage)
+				{
+					//buffer에 제품 없어짐, Drop Conv 정지, Stopper close
+					if (delay >= Delay_Conv)
+					{
+						Motor_Port &= ~Motor_Conv_Drop1;
+						Motor_Stopper = Pos_Stopper_Close;
+						Motor_Stopper_open = 0;
+						
+						Flag_ProdDefect = INITIAL;
+						Drop_ready = 1;
+						Seqeunce = 0;
+					}
+				}
+			break;
+			
 			case 100:		//pick ready
+				Flag_ProdDefect = INITIAL;
 				Pick_ready = 1;
 				Seqeunce = 0;
 			break;
