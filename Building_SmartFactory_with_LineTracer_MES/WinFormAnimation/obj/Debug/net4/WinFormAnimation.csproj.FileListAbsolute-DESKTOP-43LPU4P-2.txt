@@ -1,0 +1,15 @@
+C:\Users\kccistc\Desktop\OneDrive\report\FinalProject\FinalProejct_MES_Modified\Debug\net4\WinFormAnimation.dll
+C:\Users\kccistc\Desktop\OneDrive\report\FinalProject\FinalProejct_MES_Modified\Debug\net4\WinFormAnimation.pdb
+C:\Users\kccistc\Desktop\OneDrive\report\FinalProject\FinalProejct_MES_Modified\WinFormAnimation\obj\Debug\net4\WinFormAnimation.csprojAssemblyReference.cache
+C:\Users\kccistc\Desktop\OneDrive\report\FinalProject\FinalProejct_MES_Modified\WinFormAnimation\obj\Debug\net4\WinFormAnimation.AssemblyInfoInputs.cache
+C:\Users\kccistc\Desktop\OneDrive\report\FinalProject\FinalProejct_MES_Modified\WinFormAnimation\obj\Debug\net4\WinFormAnimation.AssemblyInfo.cs
+C:\Users\kccistc\Desktop\OneDrive\report\FinalProject\FinalProejct_MES_Modified\WinFormAnimation\obj\Debug\net4\WinFormAnimation.dll
+C:\Users\kccistc\Desktop\OneDrive\report\FinalProject\FinalProejct_MES_Modified\WinFormAnimation\obj\Debug\net4\WinFormAnimation.pdb
+C:\Users\user\Desktop\FinalProejct_MES_Modified\Debug\net4\WinFormAnimation.dll
+C:\Users\user\Desktop\FinalProejct_MES_Modified\Debug\net4\WinFormAnimation.pdb
+C:\Users\user\Desktop\FinalProejct_MES_Modified\WinFormAnimation\obj\Debug\net4\WinFormAnimation.csprojAssemblyReference.cache
+C:\Users\user\Desktop\FinalProejct_MES_Modified\WinFormAnimation\obj\Debug\net4\WinFormAnimation.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\FinalProejct_MES_Modified\WinFormAnimation\obj\Debug\net4\WinFormAnimation.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\FinalProejct_MES_Modified\WinFormAnimation\obj\Debug\net4\WinFormAnimation.AssemblyInfo.cs
+C:\Users\user\Desktop\FinalProejct_MES_Modified\WinFormAnimation\obj\Debug\net4\WinFormAnimation.dll
+C:\Users\user\Desktop\FinalProejct_MES_Modified\WinFormAnimation\obj\Debug\net4\WinFormAnimation.pdb

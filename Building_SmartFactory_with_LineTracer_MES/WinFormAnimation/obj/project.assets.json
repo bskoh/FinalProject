@@ -1,0 +1,147 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETFramework,Version=v4.0": {
+      "MSBump/2.3.2": {
+        "type": "package",
+        "build": {
+          "build/MSBump.props": {},
+          "build/MSBump.targets": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/MSBump.props": {},
+          "buildMultiTargeting/MSBump.targets": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MSBump/2.3.2": {
+      "sha512": "SjS7SiDFVlwr2M02UJsVo3CwHJTF7X2vb2igPR0USTPadm2zYKgfctfDiqQyENQzfH7YyxQseslzQO0+/02sow==",
+      "type": "package",
+      "path": "msbump/2.3.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/MSBump.props",
+        "build/MSBump.targets",
+        "buildMultiTargeting/MSBump.props",
+        "buildMultiTargeting/MSBump.targets",
+        "msbump.2.3.2.nupkg.sha512",
+        "msbump.nuspec",
+        "tasks/net46/MSBump.dll",
+        "tasks/net46/Microsoft.Build.Framework.dll",
+        "tasks/net46/Microsoft.Build.Tasks.Core.dll",
+        "tasks/net46/Microsoft.Build.Utilities.Core.dll",
+        "tasks/net46/Newtonsoft.Json.dll",
+        "tasks/net46/NuGet.Versioning.dll",
+        "tasks/net46/System.Collections.Immutable.dll",
+        "tasks/net46/System.Reflection.Metadata.dll",
+        "tasks/net46/System.Runtime.InteropServices.RuntimeInformation.dll",
+        "tasks/net46/System.Threading.Thread.dll",
+        "tasks/net46/System.Xml.XPath.XDocument.dll",
+        "tasks/net46/System.Xml.XPath.dll",
+        "tasks/netstandard1.6/MSBump.dll",
+        "tasks/netstandard1.6/Microsoft.Build.Framework.dll",
+        "tasks/netstandard1.6/Microsoft.Build.Tasks.Core.dll",
+        "tasks/netstandard1.6/Microsoft.Build.Utilities.Core.dll",
+        "tasks/netstandard1.6/Microsoft.CSharp.dll",
+        "tasks/netstandard1.6/Newtonsoft.Json.dll",
+        "tasks/netstandard1.6/NuGet.Versioning.dll",
+        "tasks/netstandard1.6/System.AppContext.dll",
+        "tasks/netstandard1.6/System.Buffers.dll",
+        "tasks/netstandard1.6/System.Collections.Concurrent.dll",
+        "tasks/netstandard1.6/System.Collections.Immutable.dll",
+        "tasks/netstandard1.6/System.Collections.NonGeneric.dll",
+        "tasks/netstandard1.6/System.Diagnostics.DiagnosticSource.dll",
+        "tasks/netstandard1.6/System.Dynamic.Runtime.dll",
+        "tasks/netstandard1.6/System.IO.Compression.ZipFile.dll",
+        "tasks/netstandard1.6/System.IO.FileSystem.Primitives.dll",
+        "tasks/netstandard1.6/System.Linq.Expressions.dll",
+        "tasks/netstandard1.6/System.Linq.Parallel.dll",
+        "tasks/netstandard1.6/System.Linq.dll",
+        "tasks/netstandard1.6/System.ObjectModel.dll",
+        "tasks/netstandard1.6/System.Private.DataContractSerialization.dll",
+        "tasks/netstandard1.6/System.Reflection.Emit.ILGeneration.dll",
+        "tasks/netstandard1.6/System.Reflection.Emit.Lightweight.dll",
+        "tasks/netstandard1.6/System.Reflection.Emit.dll",
+        "tasks/netstandard1.6/System.Reflection.Metadata.dll",
+        "tasks/netstandard1.6/System.Reflection.TypeExtensions.dll",
+        "tasks/netstandard1.6/System.Resources.Reader.dll",
+        "tasks/netstandard1.6/System.Resources.Writer.dll",
+        "tasks/netstandard1.6/System.Runtime.InteropServices.RuntimeInformation.dll",
+        "tasks/netstandard1.6/System.Runtime.Numerics.dll",
+        "tasks/netstandard1.6/System.Runtime.Serialization.Primitives.dll",
+        "tasks/netstandard1.6/System.Runtime.Serialization.Xml.dll",
+        "tasks/netstandard1.6/System.Security.Cryptography.OpenSsl.dll",
+        "tasks/netstandard1.6/System.Security.Cryptography.Primitives.dll",
+        "tasks/netstandard1.6/System.Text.RegularExpressions.dll",
+        "tasks/netstandard1.6/System.Threading.Tasks.Extensions.dll",
+        "tasks/netstandard1.6/System.Threading.Thread.dll",
+        "tasks/netstandard1.6/System.Threading.ThreadPool.dll",
+        "tasks/netstandard1.6/System.Threading.dll",
+        "tasks/netstandard1.6/System.Xml.ReaderWriter.dll",
+        "tasks/netstandard1.6/System.Xml.XDocument.dll",
+        "tasks/netstandard1.6/System.Xml.XPath.XDocument.dll",
+        "tasks/netstandard1.6/System.Xml.XPath.XmlDocument.dll",
+        "tasks/netstandard1.6/System.Xml.XPath.dll",
+        "tasks/netstandard1.6/System.Xml.XmlDocument.dll",
+        "tasks/netstandard1.6/System.Xml.XmlSerializer.dll"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v4.0": [
+      "MSBump >= 2.3.2"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\user\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.6.0.4",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\user\\Desktop\\FinalProject\\Building_SmartFactory_with_LineTracer_MES\\WinFormAnimation\\WinFormAnimation.csproj",
+      "projectName": "WinFormAnimation",
+      "projectPath": "C:\\Users\\user\\Desktop\\FinalProject\\Building_SmartFactory_with_LineTracer_MES\\WinFormAnimation\\WinFormAnimation.csproj",
+      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\user\\Desktop\\FinalProject\\Building_SmartFactory_with_LineTracer_MES\\WinFormAnimation\\obj\\",
+      "projectStyle": "PackageReference",
+      "crossTargeting": true,
+      "configFilePaths": [
+        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net4"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net40": {
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net40": {
+        "dependencies": {
+          "MSBump": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers",
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[2.3.2, )"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

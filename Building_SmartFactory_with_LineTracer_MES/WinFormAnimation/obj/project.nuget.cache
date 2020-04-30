@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "4Bo+Q7u4yy4bHcB8tb/y/ngtx0qkPL6I6YDBw5dIkEMRg2Fx98dRQOQMR82ALI9tKQkm4p5xKPKDozVBRE+vsw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\user\\Desktop\\FinalProject\\Building_SmartFactory_with_LineTracer_MES\\WinFormAnimation\\WinFormAnimation.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\msbump\\2.3.2\\msbump.2.3.2.nupkg.sha512"
+  ],
+  "logs": []
+}

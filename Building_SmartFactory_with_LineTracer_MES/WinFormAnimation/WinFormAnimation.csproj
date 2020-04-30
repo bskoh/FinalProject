@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net4</TargetFrameworks>
+    <PackageId>WinFormAnimation</PackageId>
+    <Version>1.6.0.4</Version>
+    <Authors>Soroush Falahati</Authors>
+    <Description>A simple library for animating controls/values in .Net using key-frames.</Description>
+    <PackageLicenseUrl>https://github.com/falahati/WinFormAnimation/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://falahati.github.io/WinFormAnimation/</PackageProjectUrl>
+    <PackageIconUrl>https://github.com/falahati/WinFormAnimation/blob/master/WinFormAnimation/Icon.png?raw=true</PackageIconUrl>
+    <RepositoryUrl>https://github.com/falahati/WinFormAnimatio</RepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <IncludeSource>true</IncludeSource>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Copyright>Copyright (c) 2019 Soroush Falahati</Copyright>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Title>Key-Frame Based Animation Library (.Net 4+)</Title>
+    <AssemblyOriginatorKeyFile>OpenSourceStrongNameSignKey.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference PrivateAssets="all" Include="MSBump" Version="2.3.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icon.png">
+      <Pack>true</Pack>
+      <PackagePath>\</PackagePath>
+    </Content>
+    <Content Include="readme.txt">
+      <Pack>true</Pack>
+      <PackagePath>\</PackagePath>
+    </Content>
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\Debug</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <BumpRevision>True</BumpRevision>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <OutputPath>..\Release</OutputPath>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+</Project>
