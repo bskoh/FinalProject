@@ -14,23 +14,6 @@ using System.Runtime.InteropServices;
 using WinFormAnimation;
 
 
-//using System.Collections.Generic;
-//using Newtonsoft.Json;
-
-//using System.Threading;
-//using System.Threading.Tasks;
-
-//using Microsoft.Azure.CognitiveServices.Vision.Face;
-//using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
-
-
-
-//using MySql.Data.MySqlClient;
-//using System.Data;
-
-//using System.ComponentModel;
-
-
 namespace FinalProejct_MES
 {
     public partial class Form1 : Form
