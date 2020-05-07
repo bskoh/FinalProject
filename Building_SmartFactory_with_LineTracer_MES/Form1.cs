@@ -1,35 +1,35 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.IO;
 using System.Text;
-
-using System.Collections.Generic;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Microsoft.Azure.CognitiveServices.Vision.Face;
-using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
-
 using System.Web;
-
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
-
-using MySql.Data.MySqlClient;
-using System.Data;
-
-using System.ComponentModel;
 using System.Runtime.InteropServices;
-
 using WinFormAnimation;
+
+
+//using System.Collections.Generic;
+//using Newtonsoft.Json;
+
+//using System.Threading;
+//using System.Threading.Tasks;
+
+//using Microsoft.Azure.CognitiveServices.Vision.Face;
+//using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
+
+
+
+//using MySql.Data.MySqlClient;
+//using System.Data;
+
+//using System.ComponentModel;
+
 
 namespace FinalProejct_MES
 {

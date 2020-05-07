@@ -96,20 +96,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\user\\.nuget\\packages\\": {}
+    "C:\\Users\\kccistc\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.6.0.4",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\Desktop\\FinalProject\\Building_SmartFactory_with_LineTracer_MES\\WinFormAnimation\\WinFormAnimation.csproj",
+      "projectUniqueName": "C:\\Users\\kccistc\\Desktop\\finalproject\\Building_SmartFactory_with_LineTracer_MES\\WinFormAnimation\\WinFormAnimation.csproj",
       "projectName": "WinFormAnimation",
-      "projectPath": "C:\\Users\\user\\Desktop\\FinalProject\\Building_SmartFactory_with_LineTracer_MES\\WinFormAnimation\\WinFormAnimation.csproj",
-      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\Desktop\\FinalProject\\Building_SmartFactory_with_LineTracer_MES\\WinFormAnimation\\obj\\",
+      "projectPath": "C:\\Users\\kccistc\\Desktop\\finalproject\\Building_SmartFactory_with_LineTracer_MES\\WinFormAnimation\\WinFormAnimation.csproj",
+      "packagesPath": "C:\\Users\\kccistc\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\kccistc\\Desktop\\finalproject\\Building_SmartFactory_with_LineTracer_MES\\WinFormAnimation\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "configFilePaths": [
-        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\kccistc\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -140,7 +140,7 @@
             "version": "[2.3.2, )"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

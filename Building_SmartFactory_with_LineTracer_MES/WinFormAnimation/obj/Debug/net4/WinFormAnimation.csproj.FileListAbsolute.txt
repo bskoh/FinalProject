@@ -5,3 +5,10 @@ C:\Users\kccistc\Desktop\OneDrive\report\FinalProject\FinalProejct_MES_Modified_
 C:\Users\kccistc\Desktop\OneDrive\report\FinalProject\FinalProejct_MES_Modified_Animation\WinFormAnimation\obj\Debug\net4\WinFormAnimation.AssemblyInfo.cs
 C:\Users\kccistc\Desktop\OneDrive\report\FinalProject\FinalProejct_MES_Modified_Animation\WinFormAnimation\obj\Debug\net4\WinFormAnimation.dll
 C:\Users\kccistc\Desktop\OneDrive\report\FinalProject\FinalProejct_MES_Modified_Animation\WinFormAnimation\obj\Debug\net4\WinFormAnimation.pdb
+C:\Users\kccistc\Desktop\finalproject\Building_SmartFactory_with_LineTracer_MES\Debug\net4\WinFormAnimation.dll
+C:\Users\kccistc\Desktop\finalproject\Building_SmartFactory_with_LineTracer_MES\Debug\net4\WinFormAnimation.pdb
+C:\Users\kccistc\Desktop\finalproject\Building_SmartFactory_with_LineTracer_MES\WinFormAnimation\obj\Debug\net4\WinFormAnimation.csprojAssemblyReference.cache
+C:\Users\kccistc\Desktop\finalproject\Building_SmartFactory_with_LineTracer_MES\WinFormAnimation\obj\Debug\net4\WinFormAnimation.AssemblyInfoInputs.cache
+C:\Users\kccistc\Desktop\finalproject\Building_SmartFactory_with_LineTracer_MES\WinFormAnimation\obj\Debug\net4\WinFormAnimation.AssemblyInfo.cs
+C:\Users\kccistc\Desktop\finalproject\Building_SmartFactory_with_LineTracer_MES\WinFormAnimation\obj\Debug\net4\WinFormAnimation.dll
+C:\Users\kccistc\Desktop\finalproject\Building_SmartFactory_with_LineTracer_MES\WinFormAnimation\obj\Debug\net4\WinFormAnimation.pdb
